@@ -53,12 +53,28 @@ function clearValue() {
 function calculate() {
     const calculatorOutputText = document.getElementById('calculatorOutputText');
     const splitedArray = calculatorOutputText.value.split(" ");
-    
     console.log(splitedArray);
-    const array = splitedArray.forEach(element => {
-        Number(element);
-    });
-    console.log(array);
+    let calculatedValue = splitedArray[0];
+    for (let i = 1; i <= splitedArray.length; i+=2) {
+        let operators = splitedArray[i];
+        switch (operators) {
+            case "+":
+                calculatedValue = Number(calculatedValue)+Number(splitedArray[i+1]);
+                break;
+        
+            case "-":
+                calculatedValue -= splitedArray[i+1];
+                break;
+
+            case "*":
+                calculatedValue *= splitedArray[i+1];
+                break;
+            
+            case "/":
+                calculatedValue /= splitedArray[i+1];
+                break;
+        }
+    }
 
     calculatorOutputText.value = calculatedValue;
 }
