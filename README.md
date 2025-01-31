@@ -13,3 +13,6 @@ This will work:
 let x = "100";
 let y = "10";
 let z = x / y;
+
+finally implemented try and catch block for error handeling.
+

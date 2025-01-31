@@ -9,6 +9,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (numberButtonsClass) {
         for (let i = 0 ; i < numberButtonsClass.length ; i++) {
             numberButtonsClass[i].addEventListener('click', () => {
+                if (calculatorOutputText.value === "0") {
+                    calculatorOutputText.value = "";
+                }
                 const numberValue = numberButtonsClass[i].innerText;
                 enterValue(numberValue);
             })
@@ -51,30 +54,58 @@ function clearValue() {
 }
 
 function calculate() {
-    const calculatorOutputText = document.getElementById('calculatorOutputText');
-    const splitedArray = calculatorOutputText.value.split(" ");
-    console.log(splitedArray);
-    let calculatedValue = splitedArray[0];
-    for (let i = 1; i <= splitedArray.length; i+=2) {
-        let operators = splitedArray[i];
-        switch (operators) {
-            case "+":
-                calculatedValue = Number(calculatedValue)+Number(splitedArray[i+1]);
-                break;
-        
-            case "-":
-                calculatedValue -= splitedArray[i+1];
-                break;
+    
+    
+    try {
 
-            case "*":
-                calculatedValue *= splitedArray[i+1];
-                break;
+        const calculatorOutputText = document.getElementById('calculatorOutputText');
+        console.log(calculatorOutputText.value);
+        console.log(typeof(calculatorOutputText.value));
+
+        const splitedArray = calculatorOutputText.value.split(" ");
+        console.log(splitedArray);
+        console.log(typeof(splitedArray));
+    
+    
+        let calculatedValue = Number(splitedArray[0]);
+
+        for (let i = 1; i < splitedArray.length; i+=2) {
+            let operators = splitedArray[i];
+            let numbers = Number(splitedArray[i+1]);
+            switch (operators) {
+                case "+":
+                    calculatedValue += numbers;
+                    break;
             
-            case "/":
-                calculatedValue /= splitedArray[i+1];
-                break;
-        }
-    }
+                case "-":
+                    calculatedValue -= numbers;
+                    break;
 
-    calculatorOutputText.value = calculatedValue;
+                case "*":
+                    calculatedValue *= numbers;
+                    break;
+                
+                case "/":
+                    if (numbers === 0) {
+                        throw new Error('Cannot divide by zero');
+                    }
+                    calculatedValue /= numbers;
+                    break;
+                
+                default:
+                    throw new Error('no or invalid operator');
+            }
+        }
+        console.log(`${calculatorOutputText.value} = ${calculatedValue}`);
+        console.log(typeof(calculatedValue));
+        
+        
+        calculatorOutputText.value = calculatedValue;
+
+    } catch (error) {
+        calculatorOutputText.value = `Error: ${error.message}`;
+        console.error(`Error: ${error.message}`);
+    }
+    
+    
 }
