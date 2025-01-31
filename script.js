@@ -62,7 +62,7 @@ function calculate() {
         console.log(calculatorOutputText.value);
         console.log(typeof(calculatorOutputText.value));
 
-        const splitedArray = calculatorOutputText.value.split(" ");
+        const splitedArray = calculatorOutputText.value.split(" ").filter(item => item !== "");
         console.log(splitedArray);
         console.log(typeof(splitedArray));
     
@@ -93,12 +93,16 @@ function calculate() {
                     break;
                 
                 default:
-                    throw new Error('no or invalid operator');
+                    throw new Error(`Invalid operator`);
             }
         }
+
+        if (isNaN(calculatedValue)) {
+            throw new Error('Invalid input');
+        }
+
         console.log(`${calculatorOutputText.value} = ${calculatedValue}`);
         console.log(typeof(calculatedValue));
-        
         
         calculatorOutputText.value = calculatedValue;
 
