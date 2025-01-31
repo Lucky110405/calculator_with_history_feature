@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const arithmeticOperationButtonsClass = document.getElementsByClassName('arithmeticOperationButtons');
     const clearButton = document.getElementById('clear');
     const equalButton = document.getElementById('equal');
+    const backspaceButton = document.getElementById('backspace');
 
 
     if (numberButtonsClass) {
@@ -35,6 +36,13 @@ document.addEventListener('DOMContentLoaded', () => {
         calculate();
     })
 
+    backspaceButton.addEventListener('click', ()=> {
+        if (calculatorOutputText.value === "0") {
+            return;
+        }
+        calculatorOutputText.value = calculatorOutputText.value.slice(-1) !== " " ? calculatorOutputText.value.slice(0, -1) : calculatorOutputText.value.slice(0, -3);
+    })
+
 });
 
 function enterValue(Value) {
@@ -59,10 +67,12 @@ function calculate() {
     try {
 
         const calculatorOutputText = document.getElementById('calculatorOutputText');
-        console.log(calculatorOutputText.value);
-        console.log(typeof(calculatorOutputText.value));
+        const expression = calculatorOutputText.value;
+        console.log(expression);
+        console.log(typeof(expression));
 
-        const splitedArray = calculatorOutputText.value.split(" ").filter(item => item !== "");
+        console.log(expression.split(" "));
+        const splitedArray = expression.split(" ").filter(item => item !== "");
         console.log(splitedArray);
         console.log(typeof(splitedArray));
     
@@ -101,15 +111,20 @@ function calculate() {
             throw new Error('Invalid input');
         }
 
-        console.log(`${calculatorOutputText.value} = ${calculatedValue}`);
+        console.log(`${expression} = ${calculatedValue}`);
         console.log(typeof(calculatedValue));
         
         calculatorOutputText.value = calculatedValue;
+
+        history(expression,calculatedValue);
 
     } catch (error) {
         calculatorOutputText.value = `Error: ${error.message}`;
         console.error(`Error: ${error.message}`);
     }
-    
-    
+}
+
+function history(expression,calculatedValue) {
+    const calculatorHistoryDiv = document.getElementById('calculatorHistory');
+    calculatorHistoryDiv.innerText += `${expression} = ${calculatedValue} \n`;
 }

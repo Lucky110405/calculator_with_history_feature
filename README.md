@@ -17,3 +17,5 @@ let z = x / y;
 finally implemented try and catch block for error handeling.<br>
 added filter() method so that you can identify cases such as : 2+- , when before using filter(item => item !== "") , it is expressed as : ['2', '+', '', '-', ''] , and after using filter it is expressed as : ['2', '+', '-'] , so it becomes easy to handle invalid operator error.<br>
 learnt isNaN() is used to check if the o/p is NaN.<br>
+made a rough history section succesfullt.<br>
+using trim() and slice() to make the backspace function of calculator.<br>
