@@ -21,3 +21,5 @@ made a rough history section succesfullt.<br>
 using trim() and slice() function to select the last character of the string in order to make the backspace function of calculator.<br>
 <strong>(very imp) <strong>Variables defined inside DOMContentLoaded are not accessible to functions defined outside it.<br>
 Therefore moved all the DOM element selections (and neccessary global variables) to the top of script under the DOMContentLoaded so that i dont have to write (define) it again and again, also moved all the functions inside DOMContentLoaded so as to there does not occur any not-defined error or scope error.<br>
+learnt you can use overflow property of css to implement scrolling in html.<br>
+use of "white-space: nowrap;" for effective horizontal scrolling.<br>
