@@ -11,6 +11,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const historyDisplayDiv = document.getElementById("history");
   const calculatorOutputText = document.getElementById("calculatorOutputText");
 
+  const savedHistory = localStorage.getItem('History');
+  if (savedHistory) {
+    historyDisplayDiv.innerText = savedHistory;
+  }
+
   if (numberButtonsClass) {
     for (let i = 0; i < numberButtonsClass.length; i++) {
       numberButtonsClass[i].addEventListener("click", () => {
@@ -64,7 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  
+
 
   function enterValue(Value) {
     try{
@@ -162,12 +167,15 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function history(expression, calculatedValue) {
-    historyDisplayDiv.innerText += `${expression} = ${calculatedValue} \n`;
+    let history = `${expression} = ${calculatedValue}`;
+    historyDisplayDiv.innerText += `${history}\n`;
+    localStorage.setItem('History', historyDisplayDiv.innerText);
   }
 
   function clearHistory() {
     if (historyDisplayDiv.innerText !== "") {
       historyDisplayDiv.innerText = "";
+      localStorage.removeItem('History');
       console.log("History cleared");
     } else {
       console.log("no history to clear");

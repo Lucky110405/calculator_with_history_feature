@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculator</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div id="calculatorDisplay">
         <input type="text" id ="calculatorOutputText" value="0" disabled>
     </div>
-    <div id="calculatorButtons" style="display:flex;" >
-        <div id="calculatorNumberButtons" style="margin-right: 15px;">
+    <div id="calculatorButtons">
+        <div id="calculatorNumberButtons">
             <button class="numberButtons" id="1">1</button>
             <button class="numberButtons" id="2">2</button>
             <button class="numberButtons" id="3">3</button><br>
@@ -33,12 +34,12 @@
         </div> 
     </div> 
     <div id="calculatorHistory">
-        <div style="display: flex;">
+        <div>
             <p>Calculation History:</p>
             <button id="clearHistory">Clear History</button>
         </div>
 
-        <div id="history" style=" width: 200px; height: 300px; white-space: nowrap; overflow: scroll;">
+        <div id="history">
 
         </div>
     </div>

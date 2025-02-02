@@ -29,5 +29,6 @@ let z = x / y;</li>
 <li>learned handling keyboard events and used keydown event type (Fired when a key is pressed down) to addEventListener to the document to capture keyboard input for numbers, operators, Enter, and Backspace by using switch case for each key.</li>
 <li>gracefully seperated and improved the code of enterValue() function for the eventListener of numberButtonsClass and arithmeticOperationButtonsClass, so that i can correctly enter keyboard input (by keyboard event) without any error by calling enterValue() correctly for both operators and numbers.</li>
 <li>for the same reason, improved the code of backspace() clearHistory() function.</li>
-
+<li>learned to implement localStorage by using localStorage.getItem(), localStorage.setItem(), localStorage.removeItem() to store , retrieve and delete data in the local storage</li>
+<li>used copilot for css as i dont think i have time to write good css for now.</li>
 </ul>
