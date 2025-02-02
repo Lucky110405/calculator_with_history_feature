@@ -14,9 +14,6 @@ document.addEventListener("DOMContentLoaded", () => {
   if (numberButtonsClass) {
     for (let i = 0; i < numberButtonsClass.length; i++) {
       numberButtonsClass[i].addEventListener("click", () => {
-        if (calculatorOutputText.value === "0") {
-          calculatorOutputText.value = "";
-        }
         const numberValue = numberButtonsClass[i].innerText;
         enterValue(numberValue);
       });
@@ -26,15 +23,8 @@ document.addEventListener("DOMContentLoaded", () => {
   if (arithmeticOperationButtonsClass) {
     for (let i = 0; i < arithmeticOperationButtonsClass.length; i++) {
       arithmeticOperationButtonsClass[i].addEventListener("click", () => {
-        try {
-            const operationValue = arithmeticOperationButtonsClass[i].innerText;
-            if (calculatorOutputText.value.slice(-1) === " ") {
-            throw new Error("Invalid - you had entered consecutive operators");
-            }
-            enterValue(operationValue);
-        } catch (error) {
-            console.error(`Error: ${error.message}`);
-        }
+        const operationValue = arithmeticOperationButtonsClass[i].innerText;
+        enterValue(operationValue);
       });
     }
   }
@@ -48,27 +38,52 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   backspaceButton.addEventListener("click", () => {
-    if (calculatorOutputText.value === "0") {
-      return;
-    }
-    calculatorOutputText.value =
-      calculatorOutputText.value.slice(-1) !== " "
-        ? calculatorOutputText.value.slice(0, -1)
-        : calculatorOutputText.value.slice(0, -3);
+    backspace();
   });
 
   clearHistoryButton.addEventListener("click", () => {
-    if (historyDisplayDiv.innerText !== "") {
-      clearHistory();
-    } else console.log("no history to clear");
+    clearHistory();
   });
 
+  document.addEventListener('keydown', (event) => {
+    console.log("key:" + event.key);
+    let key = event.key;
+    switch (key) {
+      case 'Enter' :
+        calculate();
+        break;
+      case 'Backspace' :
+        backspace();
+        break;
+      case 'c' :
+        clearValue();
+        break;
+      default :
+        enterValue(key);
+        break;
+    }
+  });
+
+  
+
   function enterValue(Value) {
-    if (calculatorOutputText) {
+    try{
       const isarithmeticOperators = "+ - * /";
-      isarithmeticOperators.includes(Value)
-        ? (calculatorOutputText.value += ` ${Value} `)
-        : (calculatorOutputText.value += `${Value}`);
+
+      if (isarithmeticOperators.includes(Value)) {
+        if (calculatorOutputText.value.slice(-1) === " ") {
+          throw new Error("Invalid - you had entered consecutive operators");
+        }
+        calculatorOutputText.value += ` ${Value} `;
+      } else {
+        if (calculatorOutputText.value === "0") {
+        calculatorOutputText.value = "";
+        }
+        calculatorOutputText.value += `${Value}`;
+      }
+
+    } catch(error) {
+      console.error(`Error: ${error.message}`);
     }
   }
 
@@ -81,19 +96,22 @@ document.addEventListener("DOMContentLoaded", () => {
   function calculate() {
     try {
       const expression = calculatorOutputText.value;
-      console.log(expression);
+      console.log(`input expression is: ${expression}`);
       console.log(typeof expression);
 
-      console.log(expression.split(" "));
-      const splitedArray = expression.split(" ").filter((item) => item !== "");
+      const splitedArray = expression.split(" ");
       console.log(splitedArray);
       console.log(typeof splitedArray);
 
-      let calculatedValue = Number(splitedArray[0]);
+      const filterdSplitedArray = expression.split(" ").filter((item) => item !== "");
+      console.log(filterdSplitedArray);
+      console.log(typeof filterdSplitedArray);
 
-      for (let i = 1; i < splitedArray.length; i += 2) {
-        let operators = splitedArray[i];
-        let numbers = Number(splitedArray[i + 1]);
+      let calculatedValue = Number(filterdSplitedArray[0]);
+
+      for (let i = 1; i < filterdSplitedArray.length; i += 2) {
+        let operators = filterdSplitedArray[i];
+        let numbers = Number(filterdSplitedArray[i + 1]);
         switch (operators) {
           case "+":
             calculatedValue += numbers;
@@ -124,15 +142,23 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       console.log(`${expression} = ${calculatedValue}`);
-      console.log(typeof calculatedValue);
+      console.log(`type of calculated value is: ${typeof calculatedValue}`);
 
       calculatorOutputText.value = calculatedValue;
 
       history(expression, calculatedValue);
+
     } catch (error) {
       calculatorOutputText.value = `Error: ${error.message}`;
       console.error(`Error: ${error.message}`);
     }
+  }
+
+  function backspace() {
+    if (calculatorOutputText.value === "0") {
+      return;
+    }
+    calculatorOutputText.value = calculatorOutputText.value.slice(-1) !== " " ? calculatorOutputText.value.slice(0, -1) : calculatorOutputText.value.slice(0, -3);
   }
 
   function history(expression, calculatedValue) {
@@ -140,7 +166,12 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function clearHistory() {
-    historyDisplayDiv.innerText = "";
-    console.log("History cleared");
+    if (historyDisplayDiv.innerText !== "") {
+      historyDisplayDiv.innerText = "";
+      console.log("History cleared");
+    } else {
+      console.log("no history to clear");
+    }    
   }
+
 });
